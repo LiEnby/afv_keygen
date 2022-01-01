@@ -144,21 +144,28 @@ int main(int argc, char *argv[]){
 		printf("Notice: This only works on firmware 2.10 and below!\n");
 		printf("BACKUP YOUR ORIGINAL ACT/ACTSIG BEFORE USING THIS!!!\n");
 		
-		printf("Usage: <activation_key> <issue_number> <days> [vita_activation.afv]\n");
+		printf("Usage: <activation_key> <days> <issue_number> [vita_activation.afv]\n");
 		printf("       activation_key: the activation key in settings\n");
-		printf("       issue_number: total number of activations + 1\n");
 		printf("       days: how many days to activate for?\n");
+		printf("       issue_number: total number of activations + 1\n");
 		goto error;
 	}
 	char* activation_key = argv[1];
-	uint32_t issue_number = atoi(argv[2]);	
-	uint32_t days = atoi(argv[3]);
+	uint32_t days = atoi(argv[2]);
+	uint32_t issue_number = atoi(argv[3]);
 	char* output_name;
-	if(argc <= 4)
+	
+
+	if(argc < 4)
 		output_name = argv[4];
 	else
 		output_name = "vita_activation.afv";
-
+	printf("Please verify the following information is correct: \n");
+	printf("Activation Key: %s\n", activation_key);
+	printf("Issue Number: %i\n", issue_number);	
+	printf("Days: %i\n", days);	
+	printf("Output File: %s\n\n", output_name);
+	
 	printf("Validating activation key...");
 	uint8_t* psid = verify_activation_key(activation_key);
 	if(psid != NULL){
